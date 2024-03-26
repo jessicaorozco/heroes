@@ -26,7 +26,7 @@ Validación de datos para los formularios.
 **************Instalación***********
 Instalar Node.js y npm.
 Clonar el repositorio:
-git clone https://github.com/usuario/mi-aplicacion-crud.git
+git clone https://github.com/jessicaorozco/heroes.git
 
 Instalar las dependencias:
 npm install
