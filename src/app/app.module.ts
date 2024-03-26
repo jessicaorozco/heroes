@@ -12,6 +12,9 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { HeaderComponent } from './pages/header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InMemoryDbService, InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { HeroService } from './services/hero/hero.service';
+import { FormLoaderComponent } from './pages/form-loader/form-loader.component';
 
 @NgModule({
   declarations: [
@@ -19,18 +22,20 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HomeComponent,
     HeroComponent,
     HeroDetailComponent,
-    HeaderComponent
+    HeaderComponent,
+    FormLoaderComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
-    HttpClientModule,
     ToastModule,
     AvatarModule,
+    HttpClientModule,
     FormsModule,
+    InMemoryWebApiModule, 
     AvatarGroupModule
   ],
-  providers: [],
+  providers: [ HttpClientModule ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

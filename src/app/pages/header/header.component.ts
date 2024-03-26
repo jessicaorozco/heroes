@@ -26,7 +26,7 @@ export class HeaderComponent {
         badge: '2',
         badgeSeverity: 'info',
         icon: 'pi pi-fw pi-ticket',
-        routerLink: ['api/hero'] 
+        routerLink: ['api/heroes'] 
       }
 
     ];

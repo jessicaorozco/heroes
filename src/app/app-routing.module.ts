@@ -1,13 +1,14 @@
 
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { HeroComponent } from './pages/hero/hero.component';
-import { HeroDetailComponent } from './pages/hero-detail/hero-detail.component';
+import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
+import { HeroService } from './services/hero/hero.service';
+// import { HttpClientHeroService } from './services/http-client-hero.service';
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [HeroService],
+ 
 })
 export class AppRoutingModule { }
