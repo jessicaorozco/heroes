@@ -10,7 +10,7 @@ import { TableModule } from 'primeng/table';
 import { FormLoaderComponent } from '../form-loader/form-loader.component';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
-import { ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { HeroService } from '../../services/hero/hero.service';
 import { ConfirmationService } from 'primeng/api';
@@ -74,6 +74,22 @@ showDataTable: boolean = false;
     });
   }
 
+  public deleteModalData() {
+    try {
+            // this.messages.push({severity:"warn", summary:"", detail:"Está seguro que desea Eliminar?"})
+      this.messages = [{ severity: 'warn', summary: 'hero(s)', detail: 'Está seguro que desea Eliminar?' }];
+      // this.app.openDeleteModal("hero(s)", () => this.deleteData());
+      this.messages =[ {
+        severity: 'warn', 
+        summary: 'Información', detail: 'Está seguro que desea Eliminar?',
+        key: 'confirm' 
+      }];
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+
   create() {
     this.loading=true;
     
@@ -92,25 +108,21 @@ showDataTable: boolean = false;
     this.selectedHero = hero; // Asigna el héroe seleccionado
   }
 
-  update() {
-    
-    if (this.selectedHero) {
-      // Busca el índice del héroe a actualizar
-      const indice = this.heroes.findIndex(t => t.id === this.selectedHero!.id);
-      if (indice !== -1) {
-        // Actualiza el héroe en el array
-        this.heroes[indice] = this.selectedHero;
-        // Actualiza la lista filtrada
-        this.filteredHeroes = this.heroes;
-        // Deselecciona el héroe
-        this.selectedHero = undefined;
-        this.loading=false;
-      }
+  public editData(id: number) {
+    try {
+      this.router.navigate(['api/hero', id])
+    } catch (e) {
+      console.error(e);
     }
+
+  }
+  returnToList(){
+    this.messages()
   }
 
   delete(id: number) {
     // Busca el índice del héroe a eliminar
+
     const indice = this.heroes.findIndex(t => t.id === id);
 
     if (indice !== -1) {
@@ -124,7 +136,11 @@ showDataTable: boolean = false;
 
 
   public addRegistry() {
-    this.router.navigate(['api/hero']);
+    this.router.navigate(['api/hero/']);
   }
+  public getEventValue($event: any): string {
+    return $event.target.value;
+  }
+
 
 }

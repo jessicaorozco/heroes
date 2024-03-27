@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Hero } from '../../entity/hero/hero';
 import { environment } from '../../../envoronments/environments';
@@ -26,21 +26,27 @@ export class HeroDetailComponent {
     power: new FormControl(''),
 
   });
-
+  
   hero: Hero;
   messages: any;
   @Input() id: number | any;
   @Input() visible: boolean = true;
+  
   submitted: boolean;
   env = environment;
   isHide: boolean = false;
   isShow: boolean = true;
   olderOrderBy: number;
-heroes: Hero[] = [{ id: 1, name:"SUperman", power: "vision"},
-{ id: 1, name:"Batman", power: "vision"},
-{ id: 1, name:"Wonder Woman", power: "vision"}
-];
-  constructor(private route: ActivatedRoute,  private router: Router,
+  filteredHeroes: Hero[] = []; // Lista de héroes filtrados
+  selectedColumns: String[] = []; // Columnas seleccionadas para el filtro
+  newHero: Hero = {} as Hero; // Objeto vacío para un nuevo héroe
+  selectedHero: Hero | undefined; // Héroe seleccionado para editar/eliminar
+
+  heroes: Hero[] = [{ id: 1, name: "SUperman", power: "vision" },
+  { id: 1, name: "Batman", power: "vision" },
+  { id: 1, name: "Wonder Woman", power: "vision" }
+  ];
+  constructor(private route: ActivatedRoute, private router: Router,
     private fb: FormBuilder, private service: HeroService) {
     this.submitted = false;
     this.id = 0;
@@ -48,7 +54,7 @@ heroes: Hero[] = [{ id: 1, name:"SUperman", power: "vision"},
     this.hero = {
       id: 0,
       name: '',
-      power:" "
+      power: " "
     };
 
   }
@@ -62,8 +68,8 @@ heroes: Hero[] = [{ id: 1, name:"SUperman", power: "vision"},
 
   getData(): any[] {
     return this.heroes;
-    }
-    
+  }
+
   get f(): { [key: string]: AbstractControl } {
     return this.form.controls;
   }
@@ -76,23 +82,27 @@ heroes: Hero[] = [{ id: 1, name:"SUperman", power: "vision"},
   }
 
   selectHero(hero: Hero) {
-    hero = hero; // Assign the selected hero
+    this.hero = hero; // Assign the selected hero
   }
 
-  updateHero(hero: Hero) {
-    if (hero) {
+  updateHero() {
+    if (this.hero) {
       // Call the update service method with a copy of the selectedHero object
       this.service.update({ ...this.hero });
-      this.getByid(hero.id); // Refresh the hero list after update
+      this.getByid(this.id); // Refresh the hero list after update
       // hero = undefined; // Deselect the hero after update
     }
   }
 
   getByid(id: number): any | undefined {
-    return this.heroes.find(heroes => heroes.id === id);
+    const indice = this.heroes.findIndex(t => t.id === id);
+    console.log(indice)
+    if (indice !== -1) {
+      this.form.patchValue(this.hero);
+      return this.heroes.find(heroe => heroe.id === id);
     }
 
-
+  }
 
   // public addRegistry() {
   //   try {
@@ -110,27 +120,22 @@ heroes: Hero[] = [{ id: 1, name:"SUperman", power: "vision"},
     }
   }
 
-  // public saveRegistry() {
-  //   try {
-  //     this.submitted = true;
-  //     if (this.form.invalid) {
-  //       return;
-  //     }
-  //     if (this.id > 0) {
-  //        this.updateData();
-  //     } else {
-  //       const hero: Hero = this.form.value;
-  //       // this.service.addHero(hero).subscribe(response => {
-  //       //   this.messages = [{ severity: 'sucess', summary: 'hero(s)', detail: 'Registro exitoso' }];
-  //       //   console.log(response)
-  //       //     this.returnToList();
-  //       // })
-  //     }
+  public saveRegistry() {
+    if (this.selectedHero) {
+      // Busca el índice del héroe a actualizar
+      const indice = this.heroes.findIndex(t => t.id === this.selectedHero!.id);
+      if (indice !== -1) {
+        // Actualiza el héroe en el array
+        this.heroes[indice] = this.selectedHero;
+        // Actualiza la lista filtrada
+        this.filteredHeroes = this.heroes;
+        // Deselecciona el héroe
+        this.selectedHero = undefined;
 
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // }
+      }
+    }
+
+  }
 
   // public updateData() {
   //   try {
