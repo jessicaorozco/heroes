@@ -15,12 +15,12 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { HeroService } from '../../services/hero/hero.service';
 import { ConfirmationService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CommonModule, ProgressSpinnerModule, ToastModule, TableModule, FormLoaderComponent, AvatarModule, ReactiveFormsModule, MessagesModule, AvatarGroupModule],
+  imports: [CommonModule,InputTextModule ,  ProgressSpinnerModule, ToastModule, TableModule, FormLoaderComponent, AvatarModule, ReactiveFormsModule, MessagesModule, AvatarGroupModule],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.css',
   animations: [
@@ -49,21 +49,12 @@ showDataTable: boolean = false;
   heroSelected: Hero[] = [];
   @Output() onSave = new EventEmitter<any>();
   @Output() onConfirm = new EventEmitter<any>();
-  constructor(private router:Router) { }
+  constructor(private router:Router, private heroService: HeroService) { }
 
   ngOnInit() {
-    // Llena la lista de héroes con datos
-    this.heroes = [
-      { id: 1, name: 'Superman', power: 'Superfuerza' },
-      { id: 2, name: 'Batman', power: 'Inteligencia' },
-      { id: 3, name: 'Wonder Woman', power: 'Lazo de la verdad' },
-      { id: 4, name: 'Spiderman', power: 'Sentido arácnido' },
-      { id: 5, name: 'Iron Man', power: 'Tecnología' }
-    ];
-
-    // Inicializa las variables
+    this.heroes = this.heroService.heroes;
     this.filteredHeroes = this.heroes;
-     // Selecciona todas las columnas por defecto
+
   }
 
   filter(event: any) {
@@ -79,13 +70,7 @@ showDataTable: boolean = false;
 
   public deleteModalData() {
     try {
-            // this.messages.push({severity:"warn", summary:"", detail:"Está seguro que desea Eliminar?"})
       this.messages = [{ severity: 'warn', summary: 'hero(s)', detail: 'Está seguro que desea Eliminar?' }];
-      // this.app.openDeleteModal("hero(s)", () => this.deleteData());
-      // this.messages =[ {
-      //   severity: 'warn', 
-      //   summary: 'Información', detail: 'Está seguro que desea Eliminar?',
-      // }];
     } catch (e) {
       console.error(e);
     }
@@ -103,7 +88,7 @@ showDataTable: boolean = false;
   }
 
   selectHero(hero: Hero) {
-    this.selectedHero = hero; // Asigna el héroe seleccionado
+    this.selectedHero = hero;
   }
 
   public editData(id: number) {
@@ -121,13 +106,9 @@ showDataTable: boolean = false;
   }
 
   delete(id: number) {
-    // Busca el índice del héroe a eliminar
     const indice = this.heroes.findIndex(t => t.id === id);
     if (indice !== -1) {
-      // Elimina el héroe del array
       this.heroes.splice(indice, 1);
-
-      // Actualiza la lista filtrada
       this.filteredHeroes = this.heroes;
     }
   }

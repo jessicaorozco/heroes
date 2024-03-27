@@ -20,25 +20,24 @@
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
         sortMode="multiple"
         [multiSortMeta]="[ {field: 'id', order: 1}, {field: 'name', order: 1}, {field: 'power', order: 1},]">
-        <ng-template pTemplate="caption">
-          <div class="d-flex justify-content-end pe-5">
-            <span class="p-input-icon-right p-ml-auto">
+ 
+        <ng-template pTemplate="caption" class="p-input-icon-right">
+            <span class="p-input-icon-right">
               <i class="pi pi-search" aria-hidden="true"></i>
-              <input pInputText type="text" (input)="dt.filterGlobal(getEventValue($event), 'contains')"
-                placeholder="Search keyword" />
-            </span>
-          </div>
+              <input type="text" pInputText (input)="dt.filterGlobal(getEventValue($event), 'contains')"
+              placeholder="Buscar la palabra clave"/>
+          </span>
         </ng-template>
         <ng-template pTemplate="header">
           <tr [pSelectableRow]="heroes">
-            <th ></th>
+            <th >Acciones</th>
             <th scope="col" pSortableColumn="id">Id
               <p-sortIcon field="id"></p-sortIcon>
             </th>
-            <th scope="col" pSortableColumn="Name">Name
+            <th scope="col" pSortableColumn="Name">Nombre
               <p-sortIcon field="name"></p-sortIcon>
             </th>
-            <th scope="col" pSortableColumn="power">Powers<p-sortIcon field="power"></p-sortIcon>
+            <th scope="col" pSortableColumn="power">Poderes<p-sortIcon field="power"></p-sortIcon>
             </th>
           </tr>
         </ng-template>
