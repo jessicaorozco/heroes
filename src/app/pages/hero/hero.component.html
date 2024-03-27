@@ -1,54 +1,4 @@
-<!-- 
-
-<button class="pi pi-plus" click="addRegistry()"></button>
-<p-toast position="bottom-center" key="confirm" (onClose)="returnToList()" [baseZIndex]="5000">
-  <ng-template let-message pTemplate="message">
-      <div class="flex flex-column align-items-start" style="flex: 1">
-          <div class="flex align-items-center gap-2">
-              <p-avatar image="https://primefaces.org/cdn/primeng/images/avatar/amyelsner.png" shape="circle" />
-              <span class="font-bold text-900">Hero</span>
-          </div>
-          <div class="font-medium text-lg my-3 text-900">{{ message.summary }}</div>
-          <p-button class="p-button-sm" label="Reply" (click)="delete(hero.id)"></p-button>
-      </div>
-  </ng-template>
-</p-toast>
-<button type="button" pButton pRipple (click)="delete(id)" label="Confirm"></button>
-
-<div class="row" *ngIf="loading" style="margin-bottom: 5rem">
-  <p-progressSpinner  ></p-progressSpinner>
-</div>
-
-<p-table [value]="filteredHeroes">
-  <ng-template pTemplate="caption">
-    <div class="d-flex justify-content-end pe-5">
-      <span class="p-input-icon-right p-ml-auto">
-        <i class="pi pi-search" aria-hidden="true"></i>
-        <input pInputText type="text" (input)="dt.filteredHeroes(getEventValue($event), 'contains')"
-          placeholder="Search keyword" />
-      </span>
-    </div>
-  </ng-template>
-  <ng-template pTemplate="header">deleteModalData
-    <tr>
-      <th>ID</th>
-      <th>Nombre</th>
-      <th>Poder</th>
-      <th>Acciones</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-hero>
-    <tr>
-      <td>{{hero.id}}</td>
-      <td>{{hero.name}}</td>
-      <td>{{hero.power}}</td>
-      <td>
-        <button class="pi pi-pencil" type="button" (click)="editData(hero.id)"></button>
-        <button class="pi pi-trash" type="button" (click)="deleteModalData()"></button>
-      </td>
-    </tr> -->
-
-    
+   
 <div class="w-100 h-100 p-5">
   <p-messages [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
   
@@ -60,8 +10,8 @@
   </div>
    
     <div class="h-100" >
-      <div class="h-50  justify-content-center">
-        <!-- <p-progressSpinner ariaLabel="loading" ></p-progressSpinner> -->
+      <div *ngIf="loading" class="h-50  justify-content-center">
+        <p-progressSpinner ariaLabel="loading" ></p-progressSpinner>
            <!-- <form-loader *ngIf="loading"></form-loader> -->
          </div>
       <p-table #dt [value]="heroes" selectionMode="multiple" [(selection)]="heroSelected"

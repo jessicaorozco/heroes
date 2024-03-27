@@ -62,9 +62,19 @@ if (indice !== -1) {
   hero.id = this.heroes.length + 1;
   this.heroes.push(hero);
 }
+
 getData(): any[] {
 return this.heroes;
 }
+
+getById(hero: Hero) {
+  const indice = this.heroes.findIndex(t => t.id === hero.id);
+if (indice !== -1) {
+  this.heroes[indice] = hero;
+}
+  return hero;
+}
+
 getByid(id: number): any | undefined {
 return this.heroes.find(hero => hero.id === id);
 }

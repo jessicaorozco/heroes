@@ -1,4 +1,4 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Hero } from '../../entity/hero/hero';
 import { environment } from '../../../envoronments/environments';
@@ -19,7 +19,7 @@ import { FormLoaderComponent } from '../form-loader/form-loader.component';
   templateUrl: './hero-detail.component.html',
   styleUrl: './hero-detail.component.css'
 })
-export class HeroDetailComponent {
+export class HeroDetailComponent implements OnInit{
   form: FormGroup = new FormGroup({
     id: new FormControl(''),
     name: new FormControl(''),
@@ -29,7 +29,8 @@ export class HeroDetailComponent {
   
   hero: Hero;
   messages: any;
-  @Input() id: number | any;
+  @Input() id: any;
+  @Input() heroes: any;
   @Input() visible: boolean = true;
   
   submitted: boolean;
@@ -42,14 +43,13 @@ export class HeroDetailComponent {
   newHero: Hero = {} as Hero; // Objeto vacío para un nuevo héroe
   selectedHero: Hero | undefined; // Héroe seleccionado para editar/eliminar
 
-  heroes: Hero[] = [{ id: 1, name: "SUperman", power: "vision" },
-  { id: 1, name: "Batman", power: "vision" },
-  { id: 1, name: "Wonder Woman", power: "vision" }
-  ];
+  // heroes: Hero[] = [{ id: 1, name: "SUperman", power: "vision" },
+  // { id: 1, name: "Batman", power: "vision" },
+  // { id: 1, name: "Wonder Woman", power: "vision" }
+  // ];
   constructor(private route: ActivatedRoute, private router: Router,
     private fb: FormBuilder, private service: HeroService) {
     this.submitted = false;
-    this.id = 0;
     this.olderOrderBy = 0;
     this.hero = {
       id: 0,
@@ -59,15 +59,8 @@ export class HeroDetailComponent {
 
   }
 
-  ngOnInit(): void {
-    if (this.route.snapshot.params['id'] !== undefined) {
-      this.id = this.route.snapshot.params['id'];
-      this.getByid(this.id);
-    }
-  }
-
-  getData(): any[] {
-    return this.heroes;
+  ngOnInit() {
+    this.getByid(this.id);
   }
 
   get f(): { [key: string]: AbstractControl } {
@@ -76,9 +69,10 @@ export class HeroDetailComponent {
 
   create(hero: Hero) {
     // Call the create service method with a copy of the newHero object
-    this.service.create({ ...hero });
-    this.getByid(hero.id); // Refresh the hero list after creation
+    this.service.create(hero);
+    // this.getByid(hero.id); // Refresh the hero list after creation
     hero = {} as Hero; // Reset the newHero object for a new entry
+    this.returnToList()
   }
 
   selectHero(hero: Hero) {
@@ -89,19 +83,17 @@ export class HeroDetailComponent {
     if (this.hero) {
       // Call the update service method with a copy of the selectedHero object
       this.service.update({ ...this.hero });
-      this.getByid(this.id); // Refresh the hero list after update
+      this.returnToList()
+      // this.getByid(this.id); // Refresh the hero list after update
       // hero = undefined; // Deselect the hero after update
     }
   }
 
-  getByid(id: number): any | undefined {
-    const indice = this.heroes.findIndex(t => t.id === id);
-    console.log(indice)
-    if (indice !== -1) {
-      this.form.patchValue(this.hero);
-      return this.heroes.find(heroe => heroe.id === id);
-    }
-
+  getByid(id: number) {
+    console.log(this.id)
+    const hero = this.service.getByid(id);
+    this.form.patchValue(hero);
+    
   }
 
   // public addRegistry() {
@@ -112,6 +104,24 @@ export class HeroDetailComponent {
   //   }
   // }
 
+  public saveRegistry() {
+    try {
+      this.submitted = true;
+      if (this.form.invalid) {
+        return;
+      }
+      if (this.id > 0) {
+         this.updateHero();
+      } else {
+        this.create(this.form.value);
+      }
+
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+
   public returnToList() {
     try {
       this.router.navigate(['api/heroes']);
@@ -120,22 +130,7 @@ export class HeroDetailComponent {
     }
   }
 
-  public saveRegistry() {
-    if (this.selectedHero) {
-      // Busca el índice del héroe a actualizar
-      const indice = this.heroes.findIndex(t => t.id === this.selectedHero!.id);
-      if (indice !== -1) {
-        // Actualiza el héroe en el array
-        this.heroes[indice] = this.selectedHero;
-        // Actualiza la lista filtrada
-        this.filteredHeroes = this.heroes;
-        // Deselecciona el héroe
-        this.selectedHero = undefined;
-
-      }
-    }
-
-  }
+  
 
   // public updateData() {
   //   try {
@@ -147,18 +142,6 @@ export class HeroDetailComponent {
 
   //   } catch (e) {
   //     console.error(e);
-  //   }
-  // }
-
-
-  // public getData(id: number) {
-  //   try {
-  //     // this.service.getHero(id).subscribe(response => {
-  //     //   this.hero = response;
-  //     //   this.form.patchValue(this.hero);
-  //     // })
-  //   } catch (e) {
-  //     console.error(e)
   //   }
   // }
 

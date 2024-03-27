@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, Injectable } from '@angular/core';
+import { Component, Input, OnInit, Output,ViewChild, Injectable, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { Router } from "@angular/router";
@@ -15,6 +15,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { HeroService } from '../../services/hero/hero.service';
 import { ConfirmationService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+
 
 @Component({
   selector: 'app-hero',
@@ -46,6 +47,8 @@ showDataTable: boolean = false;
   items: any;
   isSelected: string = '';
   heroSelected: Hero[] = [];
+  @Output() onSave = new EventEmitter<any>();
+  @Output() onConfirm = new EventEmitter<any>();
   constructor(private router:Router) { }
 
   ngOnInit() {
@@ -79,11 +82,10 @@ showDataTable: boolean = false;
             // this.messages.push({severity:"warn", summary:"", detail:"Está seguro que desea Eliminar?"})
       this.messages = [{ severity: 'warn', summary: 'hero(s)', detail: 'Está seguro que desea Eliminar?' }];
       // this.app.openDeleteModal("hero(s)", () => this.deleteData());
-      this.messages =[ {
-        severity: 'warn', 
-        summary: 'Información', detail: 'Está seguro que desea Eliminar?',
-        key: 'confirm' 
-      }];
+      // this.messages =[ {
+      //   severity: 'warn', 
+      //   summary: 'Información', detail: 'Está seguro que desea Eliminar?',
+      // }];
     } catch (e) {
       console.error(e);
     }
@@ -92,16 +94,12 @@ showDataTable: boolean = false;
 
   create() {
     this.loading=true;
-    
     this.newHero.id = this.heroes.length + 1;
-    
     this.heroes.push(this.newHero);
     this.loading=false;
-    
+    this.newHero = {} as Hero;
     this.filteredHeroes = this.heroes;
 
-    
-    this.newHero = {} as Hero;
   }
 
   selectHero(hero: Hero) {
@@ -110,7 +108,9 @@ showDataTable: boolean = false;
 
   public editData(id: number) {
     try {
-      this.router.navigate(['api/hero', id])
+      this.onSave.emit(this.heroes);
+      this.onConfirm.emit(id);
+      this.router.navigate(['api/hero/', id])
     } catch (e) {
       console.error(e);
     }
@@ -122,9 +122,7 @@ showDataTable: boolean = false;
 
   delete(id: number) {
     // Busca el índice del héroe a eliminar
-
     const indice = this.heroes.findIndex(t => t.id === id);
-
     if (indice !== -1) {
       // Elimina el héroe del array
       this.heroes.splice(indice, 1);
@@ -133,7 +131,6 @@ showDataTable: boolean = false;
       this.filteredHeroes = this.heroes;
     }
   }
-
 
   public addRegistry() {
     this.router.navigate(['api/hero/']);
