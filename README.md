@@ -1,3 +1,4 @@
+ messages
 **************Introducción***********
 
 
@@ -63,16 +64,16 @@ Confirma la eliminación en el mensaje modal.
 **************Crear un nuevo usuario:***********
 
 Haz clic en el botón "Agregar ".
-Completa el formulario con el nombre, correo electrónico y contraseña del nuevo usuario.
+Completa el formulario con el nombre y poderes del nuevo heroe.
 Haz clic en el botón "Guardar".
 
-***************Editar un usuario:**********
+***************Editar un heroe:**********
 
 Haz clic en el botón "Editar" de la fila del usuario que deseas actualizar.
 Modifica el nombre, correo electrónico o contraseña del usuario en el formulario.
 Haz clic en el botón "Guardar".
 
-***************Eliminar un usuario::**********
+***************Eliminar un heroe::**********
 
 Haz clic en el botón "Eliminar" de la fila del usuario que deseas eliminar.
 Confirma la eliminación en el mensaje modal.
@@ -84,3 +85,6 @@ Esta aplicación fue desarrollada por:
 
 Jessica Orozco
 ¡Gracias por usar mi aplicación!
+=======
+
+main
