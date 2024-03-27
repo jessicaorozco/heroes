@@ -14,24 +14,25 @@ export class HomeComponent  implements OnInit {
 
 
   @Input() data = {
-    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
+    labels: ['`SuperFuerza`', 'Inteligencia', 'Sentido Arácnido, ', 'Tecnologìa'],
     datasets: [
       {
-        label: 'Ingresos',
+        label: 'Name',
         backgroundColor: '#42A5F5',
         data: [65, 59, 80, 81, 56, 55, 40]
       },
       {
-        label: 'Gastos',
+        label: 'Power',
         backgroundColor: '#FFA726',
         data: [28, 48, 40, 19, 86, 27, 90]
       }
     ]
   };
+  
   @Input() options = {
     title: {
       display: true,
-      text: 'Ingresos y Gastos por Mes',
+      text: 'Heroes',
       fontSize: 16
     },
     legend: {

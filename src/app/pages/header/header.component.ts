@@ -22,7 +22,7 @@ export class HeaderComponent {
         routerLink: ['home']
       },
       {
-        label: 'Súper Hero',
+        label: 'Heroes',
         badge: '2',
         badgeSeverity: 'info',
         icon: 'pi pi-fw pi-ticket',

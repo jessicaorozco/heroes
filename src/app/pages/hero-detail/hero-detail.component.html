@@ -1,12 +1,12 @@
 <div class="d-flex flex-column w-100">
     <div class="headerContent">
       <button class="pi pi-arrow-left" (click)="returnToList()"></button>
-      <button class="pi pi-plus" (click)="addRegistry()"></button>
-      <button class="pi pi-save" (click)="saveRegistry()"></button>
+      <!-- <button class="pi pi-plus" (click)="addRegistry()"></button> -->
+      <button class="pi pi-save" (click)="updateHero()"></button>
     </div>
     <div class="w-100 h-100 ps-5 mb-5">
       <div class="container formCRUD">
-        <h4 class="headerTitle">Súper Hero Details</h4>
+        <h4 class="headerTitle">Heroes Details</h4>
         <hr class="hrTitle">
         <form class="form-material" [formGroup]="form">
           <div class="form-group col-6">
@@ -22,7 +22,15 @@
       
             </div>
           </div>
-          
+          <div class="form-group col-6">
+            <label class="form-label">Power:</label>
+            <div class="input-group">
+              <textarea rows="5" cols="30" pInputTextarea formControlName="power"></textarea>
+              <!-- <input type="text" ngModel="power" class="form-control shadow-none" formControlName="power" maxlength="50" > -->
+      
+              
+            </div>
+          </div>
           <div class="form-group col-12">
             <button class="btn btn-primary" name="Cancel" (click)="returnToList()">Cancel</button>
           </div>
