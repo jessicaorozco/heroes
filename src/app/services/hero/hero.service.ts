@@ -34,10 +34,8 @@ export class HeroService {
   create(hero: Hero) {
     let heroes : Hero[] = [];
     if (!hero.id) {
-      console.log(uuid.v4());
       hero.id = uuid.v4();
     }
-    // hero.id = this.heroes.length + 1;
     heroes.push(hero);    
     localStorage.setItem('heroes', JSON.stringify(heroes));
     this.heroes.push(hero);
