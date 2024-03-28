@@ -85,11 +85,9 @@ export class HeroDetailComponent implements OnInit{
   }
 
   getByid(id: number) {
-    console.log(this.id)
     const hero = this.service.getById(id);
-
-console.log(hero);
-    // this.form.patchValue(hero);
+    console.log(hero)
+        this.form.patchValue(hero);
     
   }
 

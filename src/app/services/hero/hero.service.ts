@@ -49,7 +49,7 @@ export class HeroService {
     return this.heroes;
   }
 
-  getById(id: number): Hero | undefined {
+  getById(id: number): Hero{
     return this.heroes.find(hero => hero.id === id) as Hero;
   }
 
