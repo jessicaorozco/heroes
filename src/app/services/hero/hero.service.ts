@@ -27,10 +27,10 @@ export class HeroService {
   }
 
   getHeroes(){
-  //   console.log(localStorage.getItem('heroes'));
-  //   this.heroes = localStorage.getItem('heroes')
-  // ? JSON.parse(localStorage.getItem('heroes')!) as Hero[]
-  // : [];
+    console.log(localStorage.getItem('heroes'));
+    this.heroes = localStorage.getItem('heroes')
+  ? JSON.parse(localStorage.getItem('heroes')!) as Hero[]
+  : [];
     return this.heroes;
   }
 
@@ -53,8 +53,17 @@ export class HeroService {
     }
     elemento.name = datosActualizados.name;
     elemento.power = datosActualizados.power;
+   
+    this.heroes[Number(elemento.id)] = datosActualizados;
+    console.log(elemento)
+    this.updateLocalStorage();
+    
  }
-
+ 
+ updateLocalStorage() {
+  const updatedHeroesJson = JSON.stringify(this.heroes);
+  localStorage.setItem('heroes', updatedHeroesJson);
+}
 
   getData(): any[] {
     return this.heroes;
@@ -64,7 +73,7 @@ export class HeroService {
     return this.heroes.find(hero => hero.id === id) as Hero;
   }
 
-  delete(id: string | number) {
+  delete(id: string) {
     const indice = this.heroes.findIndex(t => t.id === id);
     if (indice !== -1) {
       this.heroes.splice(indice, 1);

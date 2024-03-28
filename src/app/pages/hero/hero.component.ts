@@ -72,7 +72,7 @@ export class HeroComponent implements OnInit {
   public deleteData() {
     if (confirm()) {
       this.heroSelected.forEach((obj) => {
-        this.heroService.delete(obj.id)
+        this.heroService.delete(obj.id);
       })
     }
 
