@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from '../../../envoronments/environments';
 import { Hero } from '../../entity/hero/hero';
-import { uuid } from 'uuid'; // Importa uuid
+import * as uuid  from 'uuid'; 
 @Injectable({
   providedIn: 'root'
 })
@@ -34,7 +34,8 @@ export class HeroService {
   create(hero: Hero) {
     let heroes : Hero[] = [];
     if (!hero.id) {
-      hero.id = heroes.length + 1;
+      console.log(uuid.v4());
+      hero.id = uuid.v4();
     }
     // hero.id = this.heroes.length + 1;
     heroes.push(hero);    
@@ -43,7 +44,7 @@ export class HeroService {
     
   }
 
-  update(id: number, datosActualizados: Hero): void {
+  update(id: string, datosActualizados: Hero): void {
       const elemento = this.heroes.find(item => item.id === id)  as Hero;
       if (!elemento) {
       console.error(`Elemento con ID ${elemento} no encontrado`);
@@ -59,7 +60,7 @@ export class HeroService {
     return this.heroes;
   }
 
-  getById(id: number): Hero{
+  getById(id: string): Hero{
     return this.heroes.find(hero => hero.id === id) as Hero;
   }
 

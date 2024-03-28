@@ -28,7 +28,7 @@ export class HeroDetailComponent implements OnInit{
   hero: Hero;
   messages: any;
   @Input() visible: boolean = true;
-  id: number=0;
+  id: string ='';
   submitted: boolean;
   env = environment;
   isHide: boolean = false;
@@ -43,7 +43,7 @@ export class HeroDetailComponent implements OnInit{
     this.submitted = false;
     this.olderOrderBy = 0;
     this.hero = {
-      id: 0,
+      id: '',
       name: '',
       power: " "
     };
@@ -52,7 +52,7 @@ export class HeroDetailComponent implements OnInit{
 
   ngOnInit() {
     if (this.route.snapshot.params['id'] !== undefined) {
-      this.id = Number(localStorage.getItem('id'));
+      this.id = String(localStorage.getItem('id'));
       console.log(localStorage.getItem('heroes'));
       this.getByid(this.id);
     }
@@ -83,7 +83,7 @@ export class HeroDetailComponent implements OnInit{
     this.returnToList()      
   }
 
-  getByid(id: number) {
+  getByid(id: string) {
     const hero = this.service.getById(id);
         this.form.patchValue(hero);
     
@@ -95,7 +95,7 @@ export class HeroDetailComponent implements OnInit{
       if (this.form.invalid) {
         return;
       }
-      (this.id > 0) ? this.updateHero() : this.create(); 
+      (this.id.length > 0) ? this.updateHero() : this.create(); 
       
     } catch (e) {
       console.error(e);
