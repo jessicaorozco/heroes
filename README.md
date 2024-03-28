@@ -83,7 +83,8 @@ Haz clic en el botón "Guardar".
 
 ***************Eliminar un heroe::**********
 
-Haz clic en el botón "Eliminar" de la fila del usuario que deseas eliminar.
+Haz clic en el botón "Eliminar" de la fila del heroe que deseas eliminar.
+puedes seleccionar uno o varios heroes
 Confirma la eliminación en el mensaje modal.
 Licencia
 Esta aplicación está bajo la licencia MIT.
