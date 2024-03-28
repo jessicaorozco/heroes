@@ -38,10 +38,18 @@ Iniciar el servidor de desarrollo:
 
 npm start
 
+npm run build
+
+**************Ejecución***********
+Pruebas con Karma
+
+npm test
+
+
+
 Abrir la aplicación en el navegador:
 
 http://localhost:4200
-
 
 
 ************************************Uso*********************************************

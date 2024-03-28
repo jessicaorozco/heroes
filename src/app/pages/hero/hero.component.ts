@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, Injectable } from '@angular/core';
+import { Component, Input, OnInit, Output, ViewChild, Injectable, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { Router } from "@angular/router";
@@ -13,13 +13,13 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { HeroService } from '../../services/hero/hero.service';
-import { ConfirmationService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CommonModule, ProgressSpinnerModule, ToastModule, TableModule, FormLoaderComponent, AvatarModule, ReactiveFormsModule, MessagesModule, AvatarGroupModule],
+  imports: [CommonModule, InputTextModule, ProgressSpinnerModule, ToastModule, TableModule, FormLoaderComponent, AvatarModule, ReactiveFormsModule, MessagesModule, AvatarGroupModule],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.css',
   animations: [
@@ -35,108 +35,70 @@ import { ToastModule } from 'primeng/toast';
 export class HeroComponent implements OnInit {
   heroes: Hero[] = []; // Lista de héroes
   filteredHeroes: Hero[] = []; // Lista de héroes filtrados
-  selectedColumns: String[]= []; // Columnas seleccionadas para el filtro
+  selectedColumns: String[] = []; // Columnas seleccionadas para el filtro
   newHero: Hero = {} as Hero; // Objeto vacío para un nuevo héroe
   selectedHero: Hero | undefined; // Héroe seleccionado para editar/eliminar
-showDataTable: boolean = false;
+  showDataTable: boolean = false;
   loading: boolean = false;
   showNoRecordText: boolean = false;
   env = environment;
   messages: any;
+  id: number = 0;
   items: any;
   isSelected: string = '';
   heroSelected: Hero[] = [];
-  constructor(private router:Router) { }
+  constructor(private router: Router, private heroService: HeroService) { }
 
   ngOnInit() {
-    // Llena la lista de héroes con datos
-    this.heroes = [
-      { id: 1, name: 'Superman', power: 'Superfuerza' },
-      { id: 2, name: 'Batman', power: 'Inteligencia' },
-      { id: 3, name: 'Wonder Woman', power: 'Lazo de la verdad' },
-      { id: 4, name: 'Spiderman', power: 'Sentido arácnido' },
-      { id: 5, name: 'Iron Man', power: 'Tecnología' }
-    ];
+    this.getData();
+  }
 
-    // Inicializa las variables
-    this.filteredHeroes = this.heroes;
-     // Selecciona todas las columnas por defecto
+  public getData() {
+    this.heroes = this.heroService.getHeroes();
   }
 
   filter(event: any) {
-    this.loading=true;
+    this.loading = true;
     const filterValue = event.target.value;
     this.filteredHeroes = this.heroes.filter(hero => {
       for (const key of this.selectedColumns) {
-        this.loading=false;
-        return true;      }
+        this.loading = false;
+        return true;
+      }
       return false;
     });
   }
 
-  public deleteModalData() {
+  public deleteData() {
+    if (confirm("¿Está seguro de ELiminar?")) {
+      this.heroSelected.forEach((obj) => {
+        if (obj.id != undefined) {
+          this.isSelected += obj.id + ',';
+        }
+       });
+       this.heroes = this.heroes.filter(heroe => !this.heroSelected.includes(heroe));
+       localStorage.setItem('heroes', JSON.stringify(this.heroes));
+    } 
+   }
+
+
+  public editData(id: string) {
     try {
-            // this.messages.push({severity:"warn", summary:"", detail:"Está seguro que desea Eliminar?"})
-      this.messages = [{ severity: 'warn', summary: 'hero(s)', detail: 'Está seguro que desea Eliminar?' }];
-      // this.app.openDeleteModal("hero(s)", () => this.deleteData());
-      this.messages =[ {
-        severity: 'warn', 
-        summary: 'Información', detail: 'Está seguro que desea Eliminar?',
-        key: 'confirm' 
-      }];
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-
-  create() {
-    this.loading=true;
-    
-    this.newHero.id = this.heroes.length + 1;
-    
-    this.heroes.push(this.newHero);
-    this.loading=false;
-    
-    this.filteredHeroes = this.heroes;
-
-    
-    this.newHero = {} as Hero;
-  }
-
-  selectHero(hero: Hero) {
-    this.selectedHero = hero; // Asigna el héroe seleccionado
-  }
-
-  public editData(id: number) {
-    try {
-      this.router.navigate(['api/hero', id])
+      // localStorage.setItem('heroes', JSON.stringify(this.heroes));
+      localStorage.setItem('id', id);
+      this.router.navigate(['api/hero/', id])
     } catch (e) {
       console.error(e);
     }
 
   }
-  returnToList(){
-    this.messages()
+  returnToList() {
+    this.router.navigate(['api/heroes']);
+
   }
-
-  delete(id: number) {
-    // Busca el índice del héroe a eliminar
-
-    const indice = this.heroes.findIndex(t => t.id === id);
-
-    if (indice !== -1) {
-      // Elimina el héroe del array
-      this.heroes.splice(indice, 1);
-
-      // Actualiza la lista filtrada
-      this.filteredHeroes = this.heroes;
-    }
-  }
-
 
   public addRegistry() {
-    this.router.navigate(['api/hero/']);
+    this.router.navigate(['api/hero']);
   }
   public getEventValue($event: any): string {
     return $event.target.value;

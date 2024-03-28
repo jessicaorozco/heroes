@@ -176,11 +176,16 @@
     }
   }
 </style>
-<app-header></app-header>
+
 <main class="main">
-  
-  <div class="flex">
-    <div class="right-side">
+  <app-header></app-header>
+ 
+</main>
+
+<router-outlet />
+<footer>
+  <div class="flex justify-content-center">
+ 
       <div class="social-links">
   <a
     href="https://github.com/angular/angular"
@@ -242,11 +247,9 @@
     </svg>
   </a>
 </div>
-</div>
+
   </div>
-  
-</main>
-
-
-
-<router-outlet />
+  <div class="flex justify-content-center">
+    <p class="mb-0 f_400">© Hero Inc. Copyright &copy; 2024. All rights reserved.</p>
+  </div>  
+</footer> 

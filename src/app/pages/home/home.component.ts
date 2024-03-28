@@ -14,7 +14,7 @@ export class HomeComponent  implements OnInit {
 
 
   @Input() data = {
-    labels: ['`SuperFuerza`', 'Inteligencia', 'Sentido Arácnido, ', 'Tecnologìa'],
+    labels: ['Superman', 'Bartman', 'Wonder Woman ', 'Spiderman', "Iron Man"],
     datasets: [
       {
         label: 'Name',
