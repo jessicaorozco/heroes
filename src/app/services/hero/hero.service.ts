@@ -27,10 +27,10 @@ export class HeroService {
   }
 
   getHeroes(){
-    // console.log(localStorage.getItem('heroes'));
-    this.heroes = localStorage.getItem('heroes')
-  ? JSON.parse(localStorage.getItem('heroes')!) as Hero[]
-  : [];
+  //   console.log(localStorage.getItem('heroes'));
+  //   this.heroes = localStorage.getItem('heroes')
+  // ? JSON.parse(localStorage.getItem('heroes')!) as Hero[]
+  // : [];
     return this.heroes;
   }
 
