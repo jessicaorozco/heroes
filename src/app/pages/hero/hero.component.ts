@@ -81,7 +81,7 @@ export class HeroComponent implements OnInit {
 
   public editData(id: number) {
     try {
-      localStorage.setItem('heroes', JSON.stringify(this.heroes));
+      // localStorage.setItem('heroes', JSON.stringify(this.heroes));
       localStorage.setItem('id', JSON.stringify(id));
       this.router.navigate(['api/hero/', id])
     } catch (e) {
@@ -94,7 +94,7 @@ export class HeroComponent implements OnInit {
   }
 
   public addRegistry() {
-    this.router.navigate(['api/hero/']);
+    this.router.navigate(['api/hero']);
   }
   public getEventValue($event: any): string {
     return $event.target.value;

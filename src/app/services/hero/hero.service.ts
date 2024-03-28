@@ -33,7 +33,16 @@ export class HeroService {
   }
 
   create(hero: Hero) {
-    localStorage.setItem('heroes', JSON.stringify(hero))
+    let heroes : Hero[] = [];
+    if(localStorage.getItem('heroes')  ===  null){
+      heroes.push(hero);
+      localStorage.setItem('heroes', JSON.stringify(heroes))
+    } else {
+        console.log(localStorage.getItem('heroes'));
+        // heroes = JSON.parse();
+        heroes.push(hero);
+    }
+    
   }
 
   update(id: number, datosActualizados: Hero): void {

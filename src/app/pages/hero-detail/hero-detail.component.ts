@@ -51,8 +51,11 @@ export class HeroDetailComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.id = Number(localStorage.getItem('id'));
-    this.getByid(this.id); 
+    if (this.route.snapshot.params['id'] !== undefined) {
+      this.id = Number(localStorage.getItem('id'));
+      this.getByid(this.id);
+    }
+     
   
   }
   onSubmit(): void {
@@ -65,10 +68,8 @@ export class HeroDetailComponent implements OnInit{
     return this.form.controls;
   }
 
-  create() {
-    const form = this.form.value;
-    this.service.create(form)
-    // this.returnToList()
+  create(hero:Hero) {
+    this.service.create(hero)
   }
 
   selectHero(hero: Hero) {
@@ -76,7 +77,8 @@ export class HeroDetailComponent implements OnInit{
   }
 
   updateHero() {
-    this.service.update(this.id, this.form.value);      
+    this.service.update(this.id, this.form.value);
+    this.returnToList()      
   }
 
   getByid(id: number) {
@@ -94,7 +96,7 @@ export class HeroDetailComponent implements OnInit{
       if (this.id > 0) {
          this.updateHero();
       } else {
-        this.create();
+        this.create(this.hero);
       }
 
     } catch (e) {
@@ -116,6 +118,7 @@ export class HeroDetailComponent implements OnInit{
   resetForm() {
     this.submitted = false;
     this.form.reset();
+    localStorage.clear();
   }
 
 
