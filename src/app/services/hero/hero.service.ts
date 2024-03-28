@@ -36,12 +36,15 @@ export class HeroService {
     localStorage.setItem('heroes', JSON.stringify(hero))
   }
 
-  update(id: number): void {
-      const elemento = this.heroes.find(item => item.id === id);
+  update(id: number, datosActualizados: Hero): void {
+      const elemento = this.heroes.find(item => item.id === id)  as Hero;
       if (!elemento) {
-      console.error(`Elemento con ID ${id} no encontrado`);
+      console.error(`Elemento con ID ${elemento} no encontrado`);
       return;
     }
+    elemento.name = datosActualizados.name;
+    elemento.power = datosActualizados.power;
+  alert(`Elemento con ID ${id} actualizado correctamente`);
   }
 
 
