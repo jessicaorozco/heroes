@@ -53,6 +53,7 @@ export class HeroDetailComponent implements OnInit{
   ngOnInit() {
     if (this.route.snapshot.params['id'] !== undefined) {
       this.id = Number(localStorage.getItem('id'));
+      console.log(localStorage.getItem('heroes'));
       this.getByid(this.id);
     }
      
@@ -93,10 +94,11 @@ export class HeroDetailComponent implements OnInit{
       if (this.form.invalid) {
         return;
       }
-      if (this.id > 0) {
-         this.updateHero();
+      if (this.id === undefined) {
+        this.create(this.hero); 
       } else {
-        this.create(this.hero);
+        this.updateHero();
+        
       }
 
     } catch (e) {

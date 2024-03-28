@@ -34,14 +34,8 @@ export class HeroService {
 
   create(hero: Hero) {
     let heroes : Hero[] = [];
-    if(localStorage.getItem('heroes')  ===  null){
-      heroes.push(hero);
-      localStorage.setItem('heroes', JSON.stringify(heroes))
-    } else {
-        console.log(localStorage.getItem('heroes'));
-        // heroes = JSON.parse();
-        heroes.push(hero);
-    }
+    heroes.push(hero);    
+    localStorage.setItem('heroes', JSON.stringify(heroes))
     
   }
 
@@ -53,7 +47,7 @@ export class HeroService {
     }
     elemento.name = datosActualizados.name;
     elemento.power = datosActualizados.power;
-  alert(`Elemento con ID ${id} actualizado correctamente`);
+    alert(`Elemento con ID ${id} actualizado correctamente`);
   }
 
 
