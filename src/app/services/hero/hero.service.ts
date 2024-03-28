@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable, of } from "rxjs";
 import { environment } from '../../../envoronments/environments';
-import { Router } from '@angular/router';
 import { Hero } from '../../entity/hero/hero';
-
+import { uuid } from 'uuid'; // Importa uuid
 @Injectable({
   providedIn: 'root'
 })
