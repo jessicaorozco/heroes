@@ -71,7 +71,7 @@ export class HeroDetailComponent implements OnInit{
 
   create() {
     this.service.create(this.form.value)
-    this.returnToList();
+    this.getData();
   }
 
   selectHero(hero: Hero) {
@@ -80,7 +80,7 @@ export class HeroDetailComponent implements OnInit{
 
   updateHero() {
     this.service.update(this.id, this.form.value);
-    this.returnToList()      
+    this.getData()      
   }
 
   getByid(id: number) {
@@ -102,6 +102,9 @@ export class HeroDetailComponent implements OnInit{
     }
   }
 
+  public getData(){
+    this.service.getData();
+  }
 
   public returnToList() {
     try {

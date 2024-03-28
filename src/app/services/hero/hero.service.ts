@@ -28,14 +28,20 @@ export class HeroService {
     // ];
   }
 
-  getHeroes() {
-    return this.heroes;
+  getHeroes(): Hero[] {
+    const heroesFromStorage = localStorage.getItem('heroes');
+    return JSON.parse(heroesFromStorage || '[]') as Hero[];
   }
 
   create(hero: Hero) {
     let heroes : Hero[] = [];
+    if (!hero.id) {
+      hero.id = heroes.length + 1;
+    }
+    // hero.id = this.heroes.length + 1;
     heroes.push(hero);    
-    localStorage.setItem('heroes', JSON.stringify(heroes))
+    localStorage.setItem('heroes', JSON.stringify(heroes));
+    this.heroes.push(hero);
     
   }
 

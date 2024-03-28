@@ -54,7 +54,7 @@ export class HeroComponent implements OnInit {
   }
 
   public getData() {
-    this.heroes = this.heroService.getHeroes();
+    this.heroes = this.heroService.getData();
   }
 
   filter(event: any) {
