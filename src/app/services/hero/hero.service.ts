@@ -27,7 +27,7 @@ export class HeroService {
   }
 
   getHeroes(){
-    console.log(localStorage.getItem('heroes'));
+    // console.log(localStorage.getItem('heroes'));
     this.heroes = localStorage.getItem('heroes')
   ? JSON.parse(localStorage.getItem('heroes')!) as Hero[]
   : [];
@@ -53,8 +53,7 @@ export class HeroService {
     }
     elemento.name = datosActualizados.name;
     elemento.power = datosActualizados.power;
-  
-  }
+ }
 
 
   getData(): any[] {

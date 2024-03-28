@@ -79,6 +79,7 @@ export class HeroDetailComponent implements OnInit{
   }
 
   updateHero() {
+    console.log(this.id, this.form.value)
     this.service.update(this.id, this.form.value);
     this.returnToList()      
   }

@@ -79,10 +79,10 @@ export class HeroComponent implements OnInit {
   }
 
 
-  public editData(id: number) {
+  public editData(id: string) {
     try {
       // localStorage.setItem('heroes', JSON.stringify(this.heroes));
-      localStorage.setItem('id', JSON.stringify(id));
+      localStorage.setItem('id', id);
       this.router.navigate(['api/hero/', id])
     } catch (e) {
       console.error(e);
