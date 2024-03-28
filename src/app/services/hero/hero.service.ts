@@ -19,13 +19,13 @@ export class HeroService {
     this.api = `${environment.apiUrl}:${environment.port}/${environment.endPoints}`;
     this.headers = new HttpHeaders();
     this.heroes = [];
-    this.heroes = [
-      { id: 1, name: 'Superman', power: 'Superfuerza' },
-      { id: 2, name: 'Batman', power: 'Inteligencia' },
-      { id: 3, name: 'Wonder Woman', power: 'Lazo de la verdad' },
-      { id: 4, name: 'Spiderman', power: 'Sentido arácnido' },
-      { id: 5, name: 'Iron Man', power: 'Tecnología' }
-    ];
+    // this.heroes = [
+    //   { id: 1, name: 'Superman', power: 'Superfuerza' },
+    //   { id: 2, name: 'Batman', power: 'Inteligencia' },
+    //   { id: 3, name: 'Wonder Woman', power: 'Lazo de la verdad' },
+    //   { id: 4, name: 'Spiderman', power: 'Sentido arácnido' },
+    //   { id: 5, name: 'Iron Man', power: 'Tecnología' }
+    // ];
   }
 
   getHeroes() {
@@ -47,7 +47,7 @@ export class HeroService {
     }
     elemento.name = datosActualizados.name;
     elemento.power = datosActualizados.power;
-    alert(`Elemento con ID ${id} actualizado correctamente`);
+  
   }
 
 

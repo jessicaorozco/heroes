@@ -69,8 +69,9 @@ export class HeroDetailComponent implements OnInit{
     return this.form.controls;
   }
 
-  create(hero:Hero) {
-    this.service.create(hero)
+  create() {
+    this.service.create(this.form.value)
+    this.returnToList();
   }
 
   selectHero(hero: Hero) {
@@ -94,13 +95,8 @@ export class HeroDetailComponent implements OnInit{
       if (this.form.invalid) {
         return;
       }
-      if (this.id === undefined) {
-        this.create(this.hero); 
-      } else {
-        this.updateHero();
-        
-      }
-
+      (this.id > 0) ? this.updateHero() : this.create(); 
+      
     } catch (e) {
       console.error(e);
     }
