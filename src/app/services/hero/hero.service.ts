@@ -18,6 +18,7 @@ export class HeroService {
   constructor(private httpClient: HttpClient) {
     this.api = `${environment.apiUrl}:${environment.port}/${environment.endPoints}`;
     this.headers = new HttpHeaders();
+    this.heroes = [];
     this.heroes = [
       { id: 1, name: 'Superman', power: 'Superfuerza' },
       { id: 2, name: 'Batman', power: 'Inteligencia' },
@@ -32,40 +33,33 @@ export class HeroService {
   }
 
   create(hero: Hero) {
-    this.heroes.push(hero);
+    localStorage.setItem('heroes', JSON.stringify(hero))
   }
 
-  update(hero: any) {
-    const indice = this.heroes.findIndex(t => t.id === hero.id);
-    if (indice !== -1) {
-      this.heroes[indice] = hero;
+  update(id: number): void {
+      const elemento = this.heroes.find(item => item.id === id);
+      if (!elemento) {
+      console.error(`Elemento con ID ${id} no encontrado`);
+      return;
     }
-    hero.id = this.heroes.length + 1;
-    this.heroes.push(hero);
   }
+
 
   getData(): any[] {
     return this.heroes;
   }
 
-  getById(hero: Hero) {
-    const indice = this.heroes.findIndex(t => t.id === hero.id);
-    if (indice !== -1) {
-      this.heroes[indice] = hero;
-    }
-    return hero;
+  getById(id: number): Hero | undefined {
+    return this.heroes.find(hero => hero.id === id) as Hero;
   }
 
-  getByid(id: number): any | undefined {
-    return this.heroes.find(hero => hero.id === id);
-  }
-
-  delete(id: number) {
+  delete(id: string | number) {
     const indice = this.heroes.findIndex(t => t.id === id);
     if (indice !== -1) {
       this.heroes.splice(indice, 1);
     }
   }
+
 
 
 }

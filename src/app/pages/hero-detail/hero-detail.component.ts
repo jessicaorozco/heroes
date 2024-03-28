@@ -27,24 +27,17 @@ export class HeroDetailComponent implements OnInit{
   
   hero: Hero;
   messages: any;
-  @Input() id: any;
-  @Input() heroes: any;
   @Input() visible: boolean = true;
-  
+  id: number=0;
   submitted: boolean;
   env = environment;
   isHide: boolean = false;
   isShow: boolean = true;
   olderOrderBy: number;
-  filteredHeroes: Hero[] = []; // Lista de héroes filtrados
-  selectedColumns: String[] = []; // Columnas seleccionadas para el filtro
-  newHero: Hero = {} as Hero; // Objeto vacío para un nuevo héroe
-  selectedHero: Hero | undefined; // Héroe seleccionado para editar/eliminar
-
-  // heroes: Hero[] = [{ id: 1, name: "SUperman", power: "vision" },
-  // { id: 1, name: "Batman", power: "vision" },
-  // { id: 1, name: "Wonder Woman", power: "vision" }
-  // ];
+  filteredHeroes: Hero[] = []; 
+  selectedColumns: String[] = []; 
+  newHero: Hero = {} as Hero; 
+  selectedHero: Hero | undefined; 
   constructor(private route: ActivatedRoute, private router: Router,
     private fb: FormBuilder, private service: HeroService) {
     this.submitted = false;
@@ -58,18 +51,24 @@ export class HeroDetailComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.getByid(this.id);
+    this.id = Number(localStorage.getItem('id'));
+    this.getByid(this.id); 
+  
   }
+  onSubmit(): void {
+    console.log(this.form.value);
+    this.saveRegistry();
+  }
+
 
   get f(): { [key: string]: AbstractControl } {
     return this.form.controls;
   }
 
   create() {
-    console.log(this.form.value.id)
-    // this.service.create();
-    // hero = {} as Hero;
-    this.returnToList()
+    const form = this.form.value;
+    this.service.create(form)
+    // this.returnToList()
   }
 
   selectHero(hero: Hero) {
@@ -77,8 +76,9 @@ export class HeroDetailComponent implements OnInit{
   }
 
   updateHero() {
-    if (this.hero) {
-      this.service.update({ ...this.hero });
+    if (this.id) {
+      console.log(this.id);
+      this.service.update(this.id);
       this.returnToList()
       
     }
@@ -86,8 +86,10 @@ export class HeroDetailComponent implements OnInit{
 
   getByid(id: number) {
     console.log(this.id)
-    const hero = this.service.getByid(id);
-    this.form.patchValue(hero);
+    const hero = this.service.getById(id);
+
+console.log(hero);
+    // this.form.patchValue(hero);
     
   }
 
