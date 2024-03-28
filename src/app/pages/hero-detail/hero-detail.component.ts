@@ -8,12 +8,12 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MessagesModule } from 'primeng/messages';
 import { HeroService } from '../../services/hero/hero.service';
 import { FormLoaderComponent } from '../form-loader/form-loader.component';
-
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-hero-detail',
   standalone: true,
-  imports: [CommonModule, InputTextareaModule, FormLoaderComponent, MessagesModule, ReactiveFormsModule],
+  imports: [CommonModule, InputTextareaModule, ButtonModule, FormLoaderComponent, MessagesModule, ReactiveFormsModule],
   templateUrl: './hero-detail.component.html',
   styleUrl: './hero-detail.component.css'
 })
