@@ -70,14 +70,17 @@ export class HeroComponent implements OnInit {
   }
 
   public deleteData() {
-    if (confirm()) {
+    if (confirm("¿Está seguro de ELiminar?")) {
       this.heroSelected.forEach((obj) => {
-        this.heroService.delete(obj.id);
-      })
-    }
-
-  }
-
+        if (obj.id != undefined) {
+          this.isSelected += obj.id + ',';
+        }
+       })
+       this.isSelected = this.isSelected.slice(0,-1);
+       this.heroService.delete(this.isSelected);
+       this.heroService.updateLocalStorage();
+    } 
+   }
 
   public editData(id: string) {
     try {
@@ -90,7 +93,8 @@ export class HeroComponent implements OnInit {
 
   }
   returnToList() {
-    this.messages()
+    this.router.navigate(['api/heroes']);
+
   }
 
   public addRegistry() {
