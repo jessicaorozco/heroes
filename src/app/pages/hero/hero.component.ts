@@ -75,12 +75,12 @@ export class HeroComponent implements OnInit {
         if (obj.id != undefined) {
           this.isSelected += obj.id + ',';
         }
-       })
-       this.isSelected = this.isSelected.slice(0,-1);
-       this.heroService.delete(this.isSelected);
-       this.heroService.updateLocalStorage();
+       });
+       this.heroes = this.heroes.filter(heroe => !this.heroSelected.includes(heroe));
+       localStorage.setItem('heroes', JSON.stringify(this.heroes));
     } 
    }
+
 
   public editData(id: string) {
     try {
