@@ -13,7 +13,6 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { HeroService } from '../../services/hero/hero.service';
-import { ConfirmationService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { InputTextModule } from 'primeng/inputtext';
 
@@ -39,11 +38,12 @@ export class HeroComponent implements OnInit {
   selectedColumns: String[]= []; // Columnas seleccionadas para el filtro
   newHero: Hero = {} as Hero; // Objeto vacío para un nuevo héroe
   selectedHero: Hero | undefined; // Héroe seleccionado para editar/eliminar
-showDataTable: boolean = false;
+  showDataTable: boolean = false;
   loading: boolean = false;
   showNoRecordText: boolean = false;
   env = environment;
   messages: any;
+  id:number=0;
   items: any;
   isSelected: string = '';
   heroSelected: Hero[] = [];
@@ -52,9 +52,12 @@ showDataTable: boolean = false;
   constructor(private router:Router, private heroService: HeroService) { }
 
   ngOnInit() {
-    this.heroes = this.heroService.heroes;
-    this.filteredHeroes = this.heroes;
+    this.getData();
+  }
 
+  public getData() {
+    this.heroes = this.heroService.heroes;
+    this.filteredHeroes = this.heroes;  
   }
 
   filter(event: any) {
@@ -68,33 +71,24 @@ showDataTable: boolean = false;
     });
   }
 
-  public deleteModalData() {
-    try {
-      this.messages = [{ severity: 'warn', summary: 'hero(s)', detail: 'Está seguro que desea Eliminar?' }];
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  public deleteData() {
+    if(confirm()){
+      this.heroSelected.forEach((obj) => {
+        if (obj.id != undefined) {
+          this.isSelected += obj.id+ ',';
+        }        
+      })
+     }
+     this.isSelected = this.isSelected.slice(0,-1);
+     console.log(this.isSelected);
+     this.delete();
+   }
 
-
-  create() {
-    this.loading=true;
-    this.newHero.id = this.heroes.length + 1;
-    this.heroes.push(this.newHero);
-    this.loading=false;
-    this.newHero = {} as Hero;
-    this.filteredHeroes = this.heroes;
-
-  }
-
-  selectHero(hero: Hero) {
-    this.selectedHero = hero;
-  }
-
+    
   public editData(id: number) {
     try {
       this.onSave.emit(this.heroes);
-      this.onConfirm.emit(id);
+      this.onConfirm.emit(this.id);
       this.router.navigate(['api/hero/', id])
     } catch (e) {
       console.error(e);
@@ -105,12 +99,13 @@ showDataTable: boolean = false;
     this.messages()
   }
 
-  delete(id: number) {
-    const indice = this.heroes.findIndex(t => t.id === id);
-    if (indice !== -1) {
-      this.heroes.splice(indice, 1);
-      this.filteredHeroes = this.heroes;
-    }
+  delete() {
+    this.loading=true;
+    this.heroSelected.forEach(element => {
+      this.heroService.delete(element.id);
+    });
+    this.loading=false;
+    this.getData();
   }
 
   public addRegistry() {

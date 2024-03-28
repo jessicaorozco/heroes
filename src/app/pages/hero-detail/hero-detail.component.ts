@@ -3,11 +3,9 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModu
 import { Hero } from '../../entity/hero/hero';
 import { environment } from '../../../envoronments/environments';
 import { ActivatedRoute, Router } from '@angular/router';
-// import { AppComponent } from '../../../app.component';
 import { CommonModule } from '@angular/common';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MessagesModule } from 'primeng/messages';
-
 import { HeroService } from '../../services/hero/hero.service';
 import { FormLoaderComponent } from '../form-loader/form-loader.component';
 
@@ -67,25 +65,22 @@ export class HeroDetailComponent implements OnInit{
     return this.form.controls;
   }
 
-  create(hero: Hero) {
-    // Call the create service method with a copy of the newHero object
-    this.service.create(hero);
-    // this.getByid(hero.id); // Refresh the hero list after creation
-    hero = {} as Hero; // Reset the newHero object for a new entry
+  create() {
+    console.log(this.form.value.id)
+    // this.service.create();
+    // hero = {} as Hero;
     this.returnToList()
   }
 
   selectHero(hero: Hero) {
-    this.hero = hero; // Assign the selected hero
+    this.hero = hero; 
   }
 
   updateHero() {
     if (this.hero) {
-      // Call the update service method with a copy of the selectedHero object
       this.service.update({ ...this.hero });
       this.returnToList()
-      // this.getByid(this.id); // Refresh the hero list after update
-      // hero = undefined; // Deselect the hero after update
+      
     }
   }
 
@@ -96,14 +91,6 @@ export class HeroDetailComponent implements OnInit{
     
   }
 
-  // public addRegistry() {
-  //   try {
-  //     this.router.navigate(['api/heroes']);
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // }
-
   public saveRegistry() {
     try {
       this.submitted = true;
@@ -113,7 +100,7 @@ export class HeroDetailComponent implements OnInit{
       if (this.id > 0) {
          this.updateHero();
       } else {
-        this.create(this.form.value);
+        this.create();
       }
 
     } catch (e) {
@@ -131,20 +118,6 @@ export class HeroDetailComponent implements OnInit{
   }
 
   
-
-  // public updateData() {
-  //   try {
-  //     // const hero: Hero = this.form.value;
-  //     // this.service.updateHero(this.hero).subscribe(response => {
-  //     //   this.messages = [{ severity: 'sucess', summary: 'hero(s)', detail: 'Actualización exitosa' }];
-  //     //   console.log(response)
-  //     // })
-
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // }
-
 
   resetForm() {
     this.submitted = false;

@@ -12,7 +12,6 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { HeaderComponent } from './pages/header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { InMemoryDbService, InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { HeroService } from './services/hero/hero.service';
 import { FormLoaderComponent } from './pages/form-loader/form-loader.component';
 
@@ -35,7 +34,7 @@ import { FormLoaderComponent } from './pages/form-loader/form-loader.component';
     InMemoryWebApiModule, 
     AvatarGroupModule
   ],
-  providers: [ HttpClientModule ],
+  providers: [ HttpClientModule, HeroService  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

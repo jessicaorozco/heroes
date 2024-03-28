@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable, of} from "rxjs";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Observable, of } from "rxjs";
 import { environment } from '../../../envoronments/environments';
 import { Router } from '@angular/router';
 import { Hero } from '../../entity/hero/hero';
@@ -12,10 +12,10 @@ import { Hero } from '../../entity/hero/hero';
 export class HeroService {
 
   api = '';
-  heroes: Hero[]; 
+  heroes: Hero[];
   headers: HttpHeaders;
-  
-  constructor( private httpClient: HttpClient) {
+
+  constructor(private httpClient: HttpClient) {
     this.api = `${environment.apiUrl}:${environment.port}/${environment.endPoints}`;
     this.headers = new HttpHeaders();
     this.heroes = [
@@ -26,73 +26,46 @@ export class HeroService {
       { id: 5, name: 'Iron Man', power: 'Tecnología' }
     ];
   }
-  
-  getHeroes(): Observable<any> {
-    return  this.httpClient.get(`${this.api}/heroes`);
+
+  getHeroes() {
+    return this.heroes;
   }
-  
-  //   getListHero(): Observable<any> {
-  //   return this.httpClient.get(`${this.api}/heroes`);
-  // }
-  // getHeroById(id: number) : Observable<any>{
-  //   return this.httpClient.get<any>(`${this.api}/heroes/${id}`);
-  // }  
-  // create(model: Hero) : Observable<any>{
-  //   return this.httpClient.post(`${this.api}/hero`, model);
-  // }
 
-  // update(id: string | number, model: Hero): Observable<any> {
-  //   return this.httpClient.put(`${this.api}/hero/${id}`, model);
-  // }
+  create(hero: Hero) {
+    this.heroes.push(hero);
+  }
 
-  // remove(id: string | number) : Observable<any>{
-  //   return this.httpClient.delete(`${this.api}/hero/${id}`);
-  // }
- 
-  
-  create(hero: any) {
+  update(hero: any) {
+    const indice = this.heroes.findIndex(t => t.id === hero.id);
+    if (indice !== -1) {
+      this.heroes[indice] = hero;
+    }
     hero.id = this.heroes.length + 1;
     this.heroes.push(hero);
-}
+  }
 
-update(hero: any) {
-  const indice = this.heroes.findIndex(t => t.id === hero.id);
-if (indice !== -1) {
-  this.heroes[indice] = hero;
-}
-  hero.id = this.heroes.length + 1;
-  this.heroes.push(hero);
-}
+  getData(): any[] {
+    return this.heroes;
+  }
 
-getData(): any[] {
-return this.heroes;
-}
+  getById(hero: Hero) {
+    const indice = this.heroes.findIndex(t => t.id === hero.id);
+    if (indice !== -1) {
+      this.heroes[indice] = hero;
+    }
+    return hero;
+  }
 
-getById(hero: Hero) {
-  const indice = this.heroes.findIndex(t => t.id === hero.id);
-if (indice !== -1) {
-  this.heroes[indice] = hero;
-}
-  return hero;
-}
+  getByid(id: number): any | undefined {
+    return this.heroes.find(hero => hero.id === id);
+  }
 
-getByid(id: number): any | undefined {
-return this.heroes.find(hero => hero.id === id);
-}
-
-delete(id: number) {
-const indice = this.heroes.findIndex(t => t.id === id);
-
-if (indice !== -1) {
-  this.heroes.splice(indice, 1);
-}
-
-
-
-}
-
-
-
+  delete(id: number) {
+    const indice = this.heroes.findIndex(t => t.id === id);
+    if (indice !== -1) {
+      this.heroes.splice(indice, 1);
+    }
+  }
 
 
 }
