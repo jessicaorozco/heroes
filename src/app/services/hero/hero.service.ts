@@ -26,7 +26,11 @@ export class HeroService {
     // ];
   }
 
-  getHeroes(): Hero[] {
+  getHeroes(){
+    console.log(localStorage.getItem('heroes'));
+    this.heroes = localStorage.getItem('heroes')
+  ? JSON.parse(localStorage.getItem('heroes')!) as Hero[]
+  : [];
     return this.heroes;
   }
 

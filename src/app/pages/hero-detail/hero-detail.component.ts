@@ -53,7 +53,7 @@ export class HeroDetailComponent implements OnInit{
   ngOnInit() {
     if (this.route.snapshot.params['id'] !== undefined) {
       this.id = String(localStorage.getItem('id'));
-      console.log(localStorage.getItem('heroes'));
+      localStorage.getItem('heroes');
       this.getByid(this.id);
     }
      
