@@ -27,8 +27,7 @@ export class HeroService {
   }
 
   getHeroes(): Hero[] {
-    const heroesFromStorage = localStorage.getItem('heroes');
-    return JSON.parse(heroesFromStorage || '[]') as Hero[];
+    return this.heroes;
   }
 
   create(hero: Hero) {
@@ -37,8 +36,8 @@ export class HeroService {
       hero.id = uuid.v4();
     }
     heroes.push(hero);    
-    localStorage.setItem('heroes', JSON.stringify(heroes));
     this.heroes.push(hero);
+    localStorage.setItem('heroes', JSON.stringify(this.heroes));
     
   }
 
